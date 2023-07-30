@@ -1,5 +1,5 @@
 <?php
-include_once("user_function/userfunctions.php");
+include_once("functions/userfunctions.php");
 ?>
 
 <div class="row">
@@ -18,7 +18,7 @@ include_once("user_function/userfunctions.php");
             ?>
             <div class="col-sm-6 col-md-4 col-lg-3">
                 <div class="box">
-                    <a href="product-detail.php">
+                    <a href="product-detail.php?id=<?php echo $product['id'] ?>">
                         <div class="img-box">
                             <img src=<?php echo "uploads/".$product['image'] ?> alt="">
                         </div>
@@ -47,10 +47,48 @@ include_once("user_function/userfunctions.php");
                     </a>
                 </div>
             </div>
-    <?php
+            <?php
         }
     } else {
-        // Handle case when no category is selected or no products found for the category
+        $products = getAllData('product');
+        
+        foreach ($products as $product) {
+            
+           
+            ?>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="box">
+                    <a href="product-detail.php?id=<?php echo $product['id'] ?>">
+                        <div class="img-box">
+                            <img src=<?php echo "uploads/".$product['image'] ?> alt="">
+                        </div>
+                        <div class="detail-box">
+                            <h6><?php echo $product['name']; ?></h6>
+                            <h6>
+                                Price
+                                <span>
+                                    $<?php echo $product['original_price']; ?>
+                                </span>
+                            </h6>
+                        </div>
+                        <div class="process-box">
+                            <div class="button-quantity-container">
+                                <button type="button" class="btn btn-outline-success">+ Add to Cart</button>
+                                <div class="quantity-box">
+                                    <div class="quantity-control">
+                                        <button class="quantity-btn" onclick="decreaseQuantity(event)">-</button>
+                                        <span class="quantity-value">1</span>
+                                        <button class="quantity-btn" onclick="increaseQuantity(event)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </a>
+                </div>
+            </div>
+        <?php
+        }
     }
     ?>
 </div>

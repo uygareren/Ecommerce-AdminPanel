@@ -58,7 +58,8 @@ if (isset($_POST["register"])) {
             // Oturum açma işlemleri
             // Örnek olarak, oturum başlatma işlemleri için $_SESSION kullanıyoruz
             $_SESSION['auth'] = true;
-            $_SESSION['auht_user'] = [
+            $_SESSION['auth_user'] = [
+                "id" => $user["id"],
                 'name' => $user["name"],
                 'email' => $user["email"]
             ];

@@ -55,6 +55,11 @@ function decreaseQuantity(event) {
     }, 300); // Adjust the delay (in milliseconds) to control the duration of the active state
 }
 
+
+
+
+
+
 // Pagination
 // Get all pagination links
 const paginationLinks = document.querySelectorAll('.page-link');

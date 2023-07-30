@@ -45,4 +45,30 @@ function getProductByCategoryId($table, $category_id){
 
 }
 
+function getCartById($table, $idCol, $idVal){
+    global $db;
+
+    $query = "SELECT * FROM $table WHERE $idCol = ?";
+    
+    $q = $db -> prepare($query);
+    $q->execute([$idVal]);
+   
+    $result = $q -> fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+
+}
+
+function getProductById($table, $idCol, $idVal){
+    global $db;
+
+    $query = "SELECT * FROM $table WHERE $idCol = ?";
+    $q = $db -> prepare($query);
+    $q->execute([$idVal]);
+   
+    $result = $q -> fetch(PDO::FETCH_ASSOC);
+    return $result;
+
+}
+
+
 ?>

@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+include_once("functions/userfunctions.php");
 
 ?>
 
@@ -54,64 +55,7 @@ session_start();
 
 
 <body>
-  <div class="hero_area" >
-    <!-- header section starts -->
-    <header class="header_section">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.php">
-            <span>
-              Giftos
-            </span>
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class=""></span>
-          </button>
-  
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav  ">
-              <li class="nav-item active">
-                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="shop.php">
-                  Shop
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="why.php">
-                  Why Us
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="testimonial.php">
-                  Testimonial
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="contact.php">Contact Us</a>
-              </li>
-            </ul>
-            <div class="user_option">
-              <a href="">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                <span>
-                  Login
-                </span>
-              </a>
-              <a href="cart.php">
-                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-              </a>
-              <form class="form-inline ">
-                <button class="btn nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-              </form>
-            </div>
-          </div>
-        </nav>
-      </header>
-    <!-- end header section -->
-  </div>
+  <?php include("partials/navbar.php") ?>
   <!-- end hero area -->
 
   <!-- Start of Cart Section -->
@@ -121,75 +65,77 @@ session_start();
             <div class="card" id="card" style="width: 80%; margin-left: 125px; margin-top: 25px;">
                 <div class="table-responsive">
                     <table class="table table-borderless table-shopping-cart">
+                      <form action="admin/code.php" method="post">
                         <thead class="text-muted">
                             <tr class="small text-uppercase">
                                 <th scope="col">Product</th>
                                 <th scope="col" width="120">Quantity</th>
                                 <th scope="col" width="120">Price</th>
+                                <th scope="col" width="120">Size</th>
                                 <th scope="col" class="text-right d-none d-md-block" width="200"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                          <?php
+                          $user_id = $_SESSION['auth_user']['id'];
+                          $cart_products = getCartById('cart', 'user_id', $user_id);
+                          $total_price = 0; // Toplam fiyatı sıfırla
+
+                          // $cart_products bir dizi mi kontrol edelim
+                          if (count($cart_products) > 0) {
+                            foreach ($cart_products as $cart_product) {
+                              $product_id = $cart_product['product_id'];
+                              $product = getProductById('product', 'id', $product_id);
+
+                              $name = $product['name'];
+                              $price = $product['original_price'];
+                              $size = $cart_product['size'];
+                              $image = $product['image'];
+                              $quantity = $product['quantity'];
+                              
+                              // Ürün fiyatını toplam fiyata ekle
+                              $total_price += $price;
+
+
+                              ?>
+                              <tr>
                                 <td>
-                                    <figure class="itemside align-items-center">
-                                        <div class="aside"><img src="images/p1.png" style="width: 50px;" class="img-sm"></div>
-                                        <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">Tshirt with round nect</a>
-                                            <p class="text-muted small">SIZE: L <br> Brand: MAXTRA</p>
-                                        </figcaption>
-                                    </figure>
+                                  <figure class="itemside align-items-center">
+                                    <div class="aside"><img src="<?php echo "uploads/".$product['image']; ?>" style="width: 50px;" class="img-sm"></div>
+                                    <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true"><?php echo $name; ?></a>
+                                    </figcaption>
+                                  </figure>
                                 </td>
-                                <td> <select class="form-control">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select> </td>
                                 <td>
-                                    <div class="price-wrap"> <var class="price">$10.00</var> </div>
+                                  <select class="form-control">
+                                    <?php for ($i = 1; $i <= $quantity; $i++) { ?>
+                                      <option><?php echo $i; ?></option>
+                                    <?php } ?>
+                                  </select>
                                 </td>
-                                <td class="text-right d-none d-md-block"> <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip" data-abc="true"> <i class="fa fa-heart"></i></a> <a href="" class="btn btn-light" data-abc="true"> Remove</a> </td>
-                            </tr>
-                            <tr>
                                 <td>
-                                    <figure class="itemside align-items-center">
-                                        <div class="aside"><img src="images/p1.png" style="width: 50px;" class="img-sm"></div>
-                                        <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">Flower Formal T-shirt</a>
-                                            <p class="text-muted small">SIZE: L <br> Brand: ADDA </p>
-                                        </figcaption>
-                                    </figure>
+                                  <div class="price-wrap"> <var class="price">$<?php echo $price; ?></var> </div>
                                 </td>
-                                <td> <select class="form-control">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select> </td>
-                                <td>
-                                    <div class="price-wrap"> <var class="price">$15</var>  </div>
+                                <td><?php echo $size; ?></td>
+                                <td class="text-right d-none d-md-block">
+                                  <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip" data-abc="true"> <i class="fa fa-heart"></i></a>
+                                  <input type="hidden" name="product_cart_id" value=<?php echo $cart_product['cart_id']; ?>>
+                                  <button type="submit" name="remove_cart_btn" class="btn btn-light">Remove</button>
                                 </td>
-                                <td class="text-right d-none d-md-block"> <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip" data-abc="true"> <i class="fa fa-heart"></i></a> <a href="" class="btn btn-light btn-round" data-abc="true"> Remove</a> </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <figure class="itemside align-items-center">
-                                        <div class="aside"><img src="images/p1.png" style="width: 50px;" class="img-sm"></div>
-                                        <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">Printed White Tshirt</a>
-                                            <p class="small text-muted">SIZE:M <br> Brand: Cantabil</p>
-                                        </figcaption>
-                                    </figure>
-                                </td>
-                                <td> <select class="form-control">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select> </td>
-                                <td>
-                                    <div class="price-wrap"> <var class="price">$9</var>  </div>
-                                </td>
-                                <td class="text-right d-none d-md-block"> <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip" data-abc="true"> <i class="fa fa-heart"></i></a> <a href="" class="btn btn-light btn-round" data-abc="true"> Remove</a> </td>
-                            </tr>
+                              </tr>
+                              <?php
+                              
+                            
+                            }
+                          } else {
+                            // $cart_products bir dizi değil, hata mesajı yazdırabilirsiniz.
+                          }
+                          ?>
                         </tbody>
+
+                      </form>
+                        
+
                     </table>
                 </div>
             </div>
@@ -207,7 +153,8 @@ session_start();
             <div class="card">
                 <div class="card-body">
                     <h4>Total price:</h4>
-                    <p class="text-right ml-1" id="totalPrice" >$69.97</p>
+                    <p class="text-right ml-1" id="totalPrice" ><?php echo $total_price ?></p>
+                    <p class="text-right ml-1" id="totalPrice" >$</p>
                     
                     <hr> <a href="#" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"> Make Purchase </a> 
                     <a href="#" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>

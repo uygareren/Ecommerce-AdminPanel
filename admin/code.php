@@ -57,7 +57,7 @@ else if (isset($_POST['delete_category_btn'])) {
 
     header("Location: category.php");
     exit();
-} else if(isset($_POST['add_product_btn'])){
+}else if(isset($_POST['add_product_btn'])){
     $category_id = $_POST["category_id"];
     $name = $_POST["name"];
     $smallDescription = $_POST["small_description"];
@@ -66,8 +66,8 @@ else if (isset($_POST['delete_category_btn'])) {
     $sellingPrice = $_POST["selling_price"];
    
     $quantity = $_POST["quantity"];
-    $status = isset($_POST["status"]) ? $_POST["status"] : "0";
-    $trending = isset($_POST["trending"]) ? $_POST["trending"] : "0";
+    $status = isset($_POST["status"]) ? "1" : "0";
+    $trending = isset($_POST["trending"]) ? "1" : "0";
     $metaTitle = $_POST["meta_title"];
     $metaDescription = $_POST["meta_description"];
     $metaKeywords = $_POST["meta_keywords"];
@@ -163,6 +163,50 @@ else if (isset($_POST['delete_category_btn'])) {
     }
 
 
+}else if (isset($_POST['add_to_cart_btn'])) {
+    $product_id = $_POST['product_id'];
+    $category_id = $_POST['category_id'];
+    $size = $_POST['size'];
+    $quantity = (int)$_POST['quantity']; // Ensure the quantity is an integer
+    $user_id = $_SESSION['auth_user']['id'];
+
+    // DEBUGGING: Print the posted data to check if they are coming through correctly
+    echo "Product ID: " . $product_id . "<br>";
+    echo "Category ID: " . $category_id . "<br>";
+    echo "Size: " . $size . "<br>";
+    echo "Quantity: " . $quantity . "<br>";
+    echo "User ID: " . $user_id . "<br>";
+
+    $q = $db->prepare("INSERT INTO cart (product_id, category_id, size, quantity, user_id) VALUES (?, ?, ?, ?, ?)");
+    $save_data =  $q->execute([$product_id, $category_id, $size, $quantity, $user_id]);
+
+    if ($save_data) {
+        $_SESSION['message'] = "Successfully done!";
+        header('Location: /eticaret-admin/shop.php');
+        exit();
+    } else {
+        $_SESSION['message'] = "Failed to save data!";
+        header('Location: product-detail.php?id='.$product_id);
+        exit();
+    }
+}else if(isset($_POST['remove_cart_btn'])){
+    
+    $cart_id = $_POST['product_cart_id'];
+
+    $query = "DELETE FROM cart WHERE cart_id = ?";
+    $q = $db->prepare($query);
+    $result = $q->execute([$cart_id]);
+
+    if ($result) {
+        $_SESSION['message'] = "Successfully deleted cart items!";
+        header('Location: /eticaret-admin/cart.php');
+        exit();
+    } else {
+        $_SESSION['message'] = "Failed to delete cart items!";
+        header('Location: /eticaret-admin/cart.php');
+        exit();
+    }
 }
+
 
 

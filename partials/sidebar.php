@@ -1,6 +1,6 @@
 <?php
 
-include_once("user_function/userfunctions.php");
+include_once("functions/userfunctions.php");
 ?>
 
 <div class="sidebar" id="sidebar" style="width: 1000px;">

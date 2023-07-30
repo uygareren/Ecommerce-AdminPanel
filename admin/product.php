@@ -62,7 +62,7 @@ include("../functions/myfunctions.php");
                                 <td><?php echo $product['id']; ?></td>
                                 <td><?php echo $product['name']; ?></td>
                                 <td><img src="../uploads/<?php echo $product['image']; ?>" alt="Product Image" style="width: 50px;"></td>
-                                <td><?php echo $product['status'] ? 'Active' : 'Inactive'; ?></td>
+                                <td><?php echo $product['status'] == "1" ? 'Active' : 'Inactive'; ?></td>
                                 <td>
                                     <a href="edit-product.php?id=<?php echo $product['id']; ?>" class="btn btn-primary">Edit</a>
                                 </td>
