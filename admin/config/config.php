@@ -12,7 +12,6 @@ try {
 
     $db->exec("SET NAMES 'utf8'");
     
-    echo "Veritabanı bağlantısı başarıyla kuruldu!";
 } catch (PDOException $e) {
     echo "Bağlantı hatası: " . $e->getMessage();
 }

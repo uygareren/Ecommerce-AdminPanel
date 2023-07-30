@@ -12,7 +12,8 @@ include("../middleware/adminMiddleware.php");
 include("../functions/myfunctions.php");
 
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
 
 <?php include("static/header.php"); ?>
 

@@ -11,7 +11,8 @@ if(!isset($_SESSION['auth'])){
 include("../middleware/adminMiddleware.php");
 
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
 
 <?php include("static/header.php"); ?>
 

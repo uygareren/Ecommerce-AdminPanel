@@ -23,8 +23,8 @@
 				Products
 			</button>
 			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="#">Product Table</a></li>
-				<li><a class="dropdown-item" href="#">Product Add</a></li>
+				<li><a class="dropdown-item" href="product.php">Product Table</a></li>
+				<li><a class="dropdown-item" href="add-product.php">Product Add</a></li>
 			</ul>
 		</div>
 

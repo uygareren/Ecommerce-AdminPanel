@@ -15,6 +15,7 @@ include("../functions/myfunctions.php");
 <!DOCTYPE html>
 <html lang="en">
 
+
 <?php include("static/header.php"); ?>
 
 <body>
@@ -37,43 +38,39 @@ include("../functions/myfunctions.php");
 
 		<!-- MAIN -->
 		<div class="container mt-5">
-        <h2>Categories</h2>
+        <h2>Products</h2>
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
+                    <th>Image</th>
+                    <th>Status</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $categories = getData("category");
+                $products = getData("product");
 
-                    if (count($categories) > 0) {
+                    if (count($products) > 0) {
                         // Veri varsa tabloya yazdır
-                        foreach ($categories as $category) {
+                        foreach ($products as $product) {
                             ?>
                             <tr>
-                                <td><?php echo $category['id']; ?></td>
-                                <td><?php echo $category['name']; ?></td>
+                                <td><?php echo $product['id']; ?></td>
+                                <td><?php echo $product['name']; ?></td>
+                                <td><img src="../uploads/<?php echo $product['image']; ?>" alt="Product Image" style="width: 50px;"></td>
+                                <td><?php echo $product['status'] ? 'Active' : 'Inactive'; ?></td>
                                 <td>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a href="edit-category.php?id=<?php echo $category['id']; ?>" class="btn btn-primary">Edit</a>
-                                        </div>
-                                        
-                                    </div>
+                                    <a href="edit-product.php?id=<?php echo $product['id']; ?>" class="btn btn-primary">Edit</a>
                                 </td>
-
                                 <td>
-                                <div class="col" style="display: block;">
-                                    <form action="code.php" method="POST">
-                                        <input type="hidden" name="category_id" value="<?php echo $category['id']; ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm" name="delete_category_btn">Delete</button>
+                                <form action="code.php" method="POST">
+                                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" name="delete_product_btn">Delete</button>
                                     </form>
-                                </div>
                                 </td>
                                 </div>
                             </tr>
