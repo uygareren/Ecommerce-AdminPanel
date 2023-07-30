@@ -6,10 +6,11 @@ include("config/config.php");
 
 if (isset($_POST['add_category_btn'])) {
     $name = $_POST["name"];
+    $slug = strtolower($name);
 
-    $q = $db->prepare("INSERT INTO category (name)VALUES (?)");
+    $q = $db->prepare("INSERT INTO category (name, slug) VALUES (?,?)");
 
-    $save_data =  $q->execute([$name]);
+    $save_data =  $q->execute([$name, $slug]);
     
 
     if ($save_data) {
